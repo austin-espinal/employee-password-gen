@@ -10,22 +10,31 @@ var randomNumber = function (min, max) {
 //function to generate a random lower case letter
 var lowCaseGen = function () {
   var lowCaseLetter = String.fromCharCode(randomNumber(97, 122));
+  return lowCaseLetter;
 }
 
 //function to generate a random upper case letter
 var upCaseGen = function () {
   var upCaseLetter = String.fromCharCode(randomNumber(65, 90));
+  return upCaseLetter;
 }
 
 //function to generate a random numeric
 var numGen = function () {
   var num = String.fromCharCode(randomNumber(48, 57));
+  return num;
 }
 
 //function to generate a random special character
 var specialGen = function () {
-  var specialChar = String.fromCharCode(randomNumber(33, 47));
-  console.log(specialChar);
+  var coinFlip = Math.random();
+  if (coinFlip < 0.5) {
+    var specialChar = String.fromCharCode(randomNumber(33, 47));
+    return specialChar;
+  } else{
+    var specialChar = String.fromCharCode(randomNumber(58, 64));
+    return specialChar;
+  }
 }
 
 //new password method
