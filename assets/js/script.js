@@ -1,57 +1,21 @@
 // Assignment code here
 
-//function to generate a random value
-var randomNumber = function (min, max) {
-  var value = Math.floor(Math.random() * (max - min + 1) + min);
+//array for asccii character type
+var lowCaseChar = [97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122];
+var upCaseChar = [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90];
+var numericChar = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
+var specialChar = [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 94, 95, 96, 123, 124, 126];
 
-  return value;
-};
 
-//function to generate a random lower case letter
-var lowCaseGen = function () {
-  var lowCaseLetter = String.fromCharCode(randomNumber(97, 122));
-  return lowCaseLetter;
-}
+// var asciiArr = lowCaseChar.concat(upCaseChar.concat(numericChar.concat(specialChar)));
 
-//function to generate a random upper case letter
-var upCaseGen = function () {
-  var upCaseLetter = String.fromCharCode(randomNumber(65, 90));
-  return upCaseLetter;
-}
-
-//function to generate a random numeric
-var numGen = function () {
-  var num = String.fromCharCode(randomNumber(48, 57));
-  return num;
-}
-
-//function to generate a random special character
-var specialGen = function () {
-  var coinFlip = Math.random();
-  if (coinFlip < 0.5) {
-    var specialChar = String.fromCharCode(randomNumber(33, 47));
-    return specialChar;
-  } else{
-    var specialChar = String.fromCharCode(randomNumber(58, 64));
-    return specialChar;
-  }
-}
-
-//new password method
-var newWord = {
-  lowCase: lowCaseGen(),
-  upCase: upCaseGen(),
-  numeric: numGen(),
-  special: specialGen()
-}
-
+var newPassword = [];
 
 //function to generate password
-var generatePassword = function () {
-  var newPassword = [];
+var generatePassword = function (lowCaseChar, upCaseChar, numericChar, specialChar) {
 
   //asks for password length
-  var characterLength = function () {
+  var passwordLength = function () {
     var characters = "";
     while (characters === "" || characters === null) {
       characters = window.prompt("Please choose the length of your password from 8 to 125");
@@ -63,63 +27,63 @@ var generatePassword = function () {
     }
     if (characters < 8 || characters > 125) {
       window.alert("Number must be from 8 to 125. Try again.");
-      characterLength();
+      passwordLength();
     }
     //to stop someone from using anything but numbers
   }
 
-  characterLength();
-
-  //checks if they want their password to contain lowercase, uppercase, numeric and special characters
-  var lowCaseConfirm = window.confirm("Do you want your password to have lower case letters in it?");
-  var upCaseConfirm = window.confirm("Do you want your password to have upper case letters in it?");
-  var numberConfirm = window.confirm("Do you want your password to have numbers in it?");
-  var symbolConfirm = window.confirm("Do you want your password to have symbols in it?");
+  passwordLength();
 
   var charConfirm = function () {
-    for (var i = 0; i < characterLength;) {
+
+    //checks if they want their password to contain lowercase, uppercase, numeric and special characters
+    var lowCaseConfirm = window.confirm("Do you want your password to have lower case letters in it?");
+    var upCaseConfirm = window.confirm("Do you want your password to have upper case letters in it?");
+    var numberConfirm = window.confirm("Do you want your password to have numbers in it?");
+    var symbolConfirm = window.confirm("Do you want your password to have symbols in it?");
+
+    //makes sure that they at least pick one character type
+    if (!lowCaseConfirm && !upCaseConfirm && !numberConfirm && !symbolConfirm) {
+      alert("You must pick at least one of them for your new password to be generated");
+      charConfirm();
+    }
+
+    for (var i = 0; i < passwordLength; i++) {
+
       //confirms and adds lowercase letters to the password
       if (lowCaseConfirm) {
         console.log("Yes they want lower case letters");
-        newWord.lowCase();
-        newPassword.push(newWord.lowCase);
-        i++;
+        var lowCase = lowCaseChar[Math.floor(Math.random() * lowCaseChar.length)]
+        newPassword.concat(String.fromCharCode(lowCase));
       }
 
       //confirms and adds uppercase letters to the password
       if (upCaseConfirm) {
         console.log("Yes they want upper case letters");
-        newWord.upCase();
-        newPassword.push(newWord.upCase);
-        i++;
+        var upCase = upCaseChar[Math.floor(Math.random() * upCaseChar.length)]
+        newPassword.concat(String.fromCharCode(upCase));
       }
 
       //confirms and adds numbers to the password
       if (numberConfirm) {
         console.log("Yes they want numbers");
-        newWord.numeric();
-        newPassword.push(newWord.numeric);
-        i++;
+        var numeric = numericChar[Math.floor(Math.random() * numericChar.length)]
+        newPassword.concat(String.fromCharCode(numeric));
       }
 
       //confirms and adds symbols/special characters to the password
       if (symbolConfirm) {
         console.log("Yes they want symbols");
-        newWord.special();
-        newPassword.push(newWord.special);
-        i++;
-      }
-
-      //makes sure that they at least pick one character type
-      if (!lowCaseConfirm && !upCaseConfirm && !numberConfirm && !symbolConfirm) {
-        alert("You must pick at least one of them for your new password to be generated");
-        charConfirm();
+        var special = specialChar[Math.floor(Math.random() * specialChar.length)]
+        newPassword.concat(String.fromCharCode(special));
       }
     }
-    alert(JSON.stringify(newPassword));
-  };
+    return newPassword.join();
 
+  };
+  charConfirm();
 };
+console.log(newPassword);
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
