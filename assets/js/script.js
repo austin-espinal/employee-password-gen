@@ -76,7 +76,7 @@ var generatePassword = function (lowCaseConfirm, upCaseConfirm, numberConfirm, s
     newPassword.push(String.fromCharCode(genPassword));
     console.log(newPassword);
   }
-  return newPassword.join();
+  return newPassword.join("");
 };
 
 // Get references to the #generate element
