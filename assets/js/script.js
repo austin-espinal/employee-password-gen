@@ -6,84 +6,78 @@ var upCaseChar = [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80
 var numericChar = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
 var specialChar = [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 94, 95, 96, 123, 124, 126];
 
+// var passwordLength = function() {
+  
+//   //to stop someone from using anything but numbers
+// }
 
-// var asciiArr = lowCaseChar.concat(upCaseChar.concat(numericChar.concat(specialChar)));
+// var charConfirm = function() {
+  
+// }
 
-var newPassword = [];
 
 //function to generate password
-var generatePassword = function (lowCaseChar, upCaseChar, numericChar, specialChar) {
+var generatePassword = function (lowCaseConfirm, upCaseConfirm, numberConfirm, symbolConfirm) {
+
+  var newPassword = [];
 
   //asks for password length
-  var passwordLength = function () {
-    var characters = "";
-    while (characters === "" || characters === null) {
-      characters = window.prompt("Please choose the length of your password from 8 to 125");
-    }
-    characters = parseInt(characters);
-    if (characters >= 8 && characters <= 125) {
-      console.log(characters);
-      return characters;
-    }
-    if (characters < 8 || characters > 125) {
-      window.alert("Number must be from 8 to 125. Try again.");
-      passwordLength();
-    }
-    //to stop someone from using anything but numbers
+  var characters = "";
+  while (characters === "" || characters === null) {
+    characters = window.prompt("Please choose the length of your password from 8 to 125");
   }
+  characters = parseInt(characters);
+  if (characters < 8 || characters > 125) {
+    window.alert("Number must be from 8 to 125. Try again.");
+    characters = window.prompt("Please choose the length of your password from 8 to 125");
+  }
+  console.log(characters);
 
-  passwordLength();
+  //checks if they want their password to contain lowercase, uppercase, numeric and special characters
+  var lowCaseConfirm = window.confirm("Do you want your password to have lower case letters in it?");
+  var upCaseConfirm = window.confirm("Do you want your password to have upper case letters in it?");
+  var numberConfirm = window.confirm("Do you want your password to have numbers in it?");
+  var symbolConfirm = window.confirm("Do you want your password to have symbols in it?");
 
-  var charConfirm = function () {
-
-    //checks if they want their password to contain lowercase, uppercase, numeric and special characters
+  //makes sure that they at least pick one character type
+  if (!lowCaseConfirm && !upCaseConfirm && !numberConfirm && !symbolConfirm) {
+    alert("You must pick at least one of them for your new password to be generated");
     var lowCaseConfirm = window.confirm("Do you want your password to have lower case letters in it?");
     var upCaseConfirm = window.confirm("Do you want your password to have upper case letters in it?");
     var numberConfirm = window.confirm("Do you want your password to have numbers in it?");
     var symbolConfirm = window.confirm("Do you want your password to have symbols in it?");
+  }
 
-    //makes sure that they at least pick one character type
-    if (!lowCaseConfirm && !upCaseConfirm && !numberConfirm && !symbolConfirm) {
-      alert("You must pick at least one of them for your new password to be generated");
-      charConfirm();
-    }
+  var asciiArr = [];
 
-    for (var i = 0; i < passwordLength; i++) {
+  //confirms and adds lowercase letters to the password
+  if (lowCaseConfirm) {
+    asciiArr = asciiArr.concat(lowCaseChar);
+  }
 
-      //confirms and adds lowercase letters to the password
-      if (lowCaseConfirm) {
-        console.log("Yes they want lower case letters");
-        var lowCase = lowCaseChar[Math.floor(Math.random() * lowCaseChar.length)]
-        newPassword.concat(String.fromCharCode(lowCase));
-      }
+  //confirms and adds uppercase letters to the password
+  if (upCaseConfirm) {
+    asciiArr = asciiArr.concat(upCaseChar);
+  }
 
-      //confirms and adds uppercase letters to the password
-      if (upCaseConfirm) {
-        console.log("Yes they want upper case letters");
-        var upCase = upCaseChar[Math.floor(Math.random() * upCaseChar.length)]
-        newPassword.concat(String.fromCharCode(upCase));
-      }
+  //confirms and adds numbers to the password
+  if (numberConfirm) {
+    asciiArr = asciiArr.concat(numericChar);
+  }
 
-      //confirms and adds numbers to the password
-      if (numberConfirm) {
-        console.log("Yes they want numbers");
-        var numeric = numericChar[Math.floor(Math.random() * numericChar.length)]
-        newPassword.concat(String.fromCharCode(numeric));
-      }
+  //confirms and adds symbols/special characters to the password
+  if (symbolConfirm) {
+    asciiArr = asciiArr.concat(specialChar);
+  }
 
-      //confirms and adds symbols/special characters to the password
-      if (symbolConfirm) {
-        console.log("Yes they want symbols");
-        var special = specialChar[Math.floor(Math.random() * specialChar.length)]
-        newPassword.concat(String.fromCharCode(special));
-      }
-    }
-    return newPassword.join();
+  for (var i = 0; i < characters; i++) {
 
-  };
-  charConfirm();
+    var genPassword = asciiArr[Math.floor(Math.random() * asciiArr.length)]
+    newPassword.push(String.fromCharCode(genPassword));
+    console.log(newPassword);
+  }
+  return newPassword.join();
 };
-console.log(newPassword);
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
